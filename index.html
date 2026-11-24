@@ -1,0 +1,2704 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Happy English Playground - Grade 1</title>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #FF6B9D;
+      --secondary: #4ECDC4;
+      --accent: #FFE66D;
+      --purple: #A78BFA;
+      --blue: #60A5FA;
+      --green: #34D399;
+      --orange: #FB923C;
+      --pink: #F472B6;
+      --bg: #FFF7ED;
+      --card: #FFFFFF;
+      --text: #1F2937;
+      --shadow: 0 8px 25px rgba(0,0,0,0.12);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Fredoka', 'Nunito', sans-serif;
+      background: linear-gradient(135deg, #FFF7ED 0%, #FEF3C7 50%, #FCE7F3 100%);
+      min-height: 100vh;
+      color: var(--text);
+      overflow-x: hidden;
+    }
+
+    /* ========== SCREENS ========== */
+    .screen { display: none; min-height: 100vh; padding: 16px; animation: fadeIn 0.4s ease; }
+    .screen.active { display: block; }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
+    @keyframes pop {
+      0% { transform: scale(0.8); opacity: 0; }
+      70% { transform: scale(1.08); }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    @keyframes starSpin {
+      from { transform: rotate(0deg) scale(1); }
+      to { transform: rotate(360deg) scale(1.2); }
+    }
+
+    /* ========== HEADER ========== */
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 8px;
+      margin-bottom: 16px;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--primary);
+    }
+
+    .logo span { font-size: 2rem; }
+
+    .score-box {
+      background: white;
+      border-radius: 50px;
+      padding: 8px 16px;
+      box-shadow: var(--shadow);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 700;
+      font-size: 1.1rem;
+    }
+
+    .stars { color: #FBBF24; }
+
+    /* ========== HOME ========== */
+    .hero {
+      text-align: center;
+      padding: 20px 10px 30px;
+    }
+
+    .hero h1 {
+      font-size: 2.2rem;
+      background: linear-gradient(90deg, #FF6B9D, #A78BFA, #4ECDC4);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 8px;
+    }
+
+    .hero p {
+      font-size: 1.15rem;
+      color: #6B7280;
+      margin-bottom: 20px;
+    }
+
+    .characters {
+      font-size: 4rem;
+      margin: 10px 0 20px;
+      animation: bounce 2s infinite;
+    }
+
+    .unit-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+      gap: 16px;
+      max-width: 900px;
+      margin: 0 auto;
+      padding-bottom: 40px;
+    }
+
+    .unit-card {
+      background: white;
+      border-radius: 24px;
+      padding: 20px 12px;
+      text-align: center;
+      box-shadow: var(--shadow);
+      cursor: pointer;
+      transition: all 0.25s ease;
+      border: 4px solid transparent;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .unit-card:hover, .unit-card:active {
+      transform: translateY(-6px) scale(1.03);
+      border-color: var(--primary);
+    }
+
+    .unit-card .emoji {
+      font-size: 3rem;
+      margin-bottom: 8px;
+      display: block;
+    }
+
+    .unit-card h3 {
+      font-size: 1rem;
+      margin-bottom: 4px;
+      color: var(--text);
+    }
+
+    .unit-card .phonics {
+      font-size: 0.85rem;
+      color: #6B7280;
+      background: #F3F4F6;
+      border-radius: 20px;
+      padding: 2px 10px;
+      display: inline-block;
+    }
+
+    .unit-card .progress {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      height: 6px;
+      background: var(--green);
+      border-radius: 0 0 20px 20px;
+      transition: width 0.3s;
+    }
+
+    /* ========== UNIT MENU ========== */
+    .unit-header {
+      text-align: center;
+      margin-bottom: 24px;
+    }
+
+    .unit-header .big-emoji {
+      font-size: 4.5rem;
+      display: block;
+      margin-bottom: 8px;
+    }
+
+    .unit-header h2 {
+      font-size: 1.8rem;
+      color: var(--primary);
+      margin-bottom: 4px;
+    }
+
+    .unit-header .subtitle {
+      color: #6B7280;
+      font-size: 1.05rem;
+    }
+
+    .mode-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      max-width: 500px;
+      margin: 0 auto 30px;
+    }
+
+    .mode-btn {
+      background: white;
+      border: none;
+      border-radius: 24px;
+      padding: 24px 16px;
+      font-family: inherit;
+      font-size: 1.15rem;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: var(--shadow);
+      transition: all 0.2s;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .mode-btn:hover { transform: scale(1.05); }
+    .mode-btn .icon { font-size: 2.5rem; }
+
+    .mode-btn.learn { background: linear-gradient(135deg, #A78BFA, #818CF8); color: white; }
+    .mode-btn.vocab { background: linear-gradient(135deg, #34D399, #10B981); color: white; }
+    .mode-btn.grammar { background: linear-gradient(135deg, #FB923C, #F97316); color: white; }
+    .mode-btn.writing { background: linear-gradient(135deg, #F472B6, #EC4899); color: white; }
+    .mode-btn.quiz { background: linear-gradient(135deg, #60A5FA, #3B82F6); color: white; }
+    .mode-btn.speaking { background: linear-gradient(135deg, #FBBF24, #F59E0B); color: white; }
+
+    .back-btn {
+      background: white;
+      border: none;
+      border-radius: 50px;
+      padding: 10px 20px;
+      font-family: inherit;
+      font-weight: 700;
+      font-size: 1rem;
+      cursor: pointer;
+      box-shadow: var(--shadow);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 16px;
+      transition: all 0.2s;
+    }
+
+    .back-btn:hover { background: #F3F4F6; }
+
+    /* ========== LEARN / FLASHCARD ========== */
+    .flash-container {
+      max-width: 420px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .flash-card {
+      background: white;
+      border-radius: 32px;
+      padding: 30px 20px;
+      box-shadow: var(--shadow);
+      margin-bottom: 20px;
+      min-height: 340px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      animation: pop 0.4s ease;
+    }
+
+    .flash-emoji {
+      font-size: 6rem;
+      margin-bottom: 16px;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+
+    .flash-emoji:active { transform: scale(1.15); }
+
+    .flash-word {
+      font-size: 2.4rem;
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 8px;
+    }
+
+    .flash-phonetic {
+      font-size: 1.3rem;
+      color: #6B7280;
+      margin-bottom: 16px;
+    }
+
+    .flash-sentence {
+      background: #FEF3C7;
+      border-radius: 16px;
+      padding: 12px 18px;
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: #92400E;
+      margin-top: 10px;
+    }
+
+    .nav-btns {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      margin-top: 10px;
+    }
+
+    .nav-btn {
+      background: var(--secondary);
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 56px;
+      height: 56px;
+      font-size: 1.5rem;
+      cursor: pointer;
+      box-shadow: var(--shadow);
+      transition: all 0.2s;
+    }
+
+    .nav-btn:hover { transform: scale(1.1); }
+    .nav-btn:disabled { opacity: 0.4; cursor: default; }
+
+    .speak-btn {
+      background: linear-gradient(135deg, #FF6B9D, #EC4899);
+      color: white;
+      border: none;
+      border-radius: 50px;
+      padding: 12px 28px;
+      font-family: inherit;
+      font-size: 1.15rem;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: var(--shadow);
+      margin-top: 12px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.2s;
+    }
+
+    .speak-btn:hover { transform: scale(1.05); }
+    .speak-btn:active { transform: scale(0.97); }
+
+    /* ========== PRACTICE ========== */
+    .practice-area {
+      max-width: 520px;
+      margin: 0 auto;
+    }
+
+    .question-card {
+      background: white;
+      border-radius: 28px;
+      padding: 24px 18px;
+      box-shadow: var(--shadow);
+      margin-bottom: 20px;
+      text-align: center;
+      animation: pop 0.35s ease;
+    }
+
+    .q-number {
+      font-size: 0.95rem;
+      color: #9CA3AF;
+      margin-bottom: 8px;
+    }
+
+    .q-text {
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin-bottom: 20px;
+      line-height: 1.4;
+    }
+
+    .options {
+      display: grid;
+      gap: 12px;
+    }
+
+    .option-btn {
+      background: #F3F4F6;
+      border: 3px solid transparent;
+      border-radius: 18px;
+      padding: 14px 16px;
+      font-family: inherit;
+      font-size: 1.2rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .option-btn:hover { background: #E5E7EB; }
+    .option-btn.correct {
+      background: #D1FAE5;
+      border-color: #10B981;
+      color: #065F46;
+    }
+    .option-btn.wrong {
+      background: #FEE2E2;
+      border-color: #EF4444;
+      color: #991B1B;
+    }
+    .option-btn.selected { border-color: var(--primary); background: #FCE7F3; }
+
+    .pic-options {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+
+    .pic-option {
+      background: #F9FAFB;
+      border: 4px solid transparent;
+      border-radius: 20px;
+      padding: 16px 8px;
+      font-size: 3rem;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .pic-option:hover { background: #F3F4F6; }
+    .pic-option.correct { border-color: #10B981; background: #D1FAE5; }
+    .pic-option.wrong { border-color: #EF4444; background: #FEE2E2; }
+
+    /* Writing input */
+    .write-area {
+      margin: 16px 0;
+    }
+
+    .letter-input {
+      display: flex;
+      justify-content: center;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin: 16px 0;
+    }
+
+    .letter-box {
+      width: 42px;
+      height: 50px;
+      border: 3px solid #D1D5DB;
+      border-radius: 12px;
+      font-size: 1.5rem;
+      font-weight: 700;
+      text-align: center;
+      font-family: inherit;
+      text-transform: lowercase;
+      transition: all 0.2s;
+    }
+    .letter-box:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(255,107,157,0.25);
+    }
+    .letter-box.filled { background: #FEF3C7; border-color: #F59E0B; }
+
+    .word-input {
+      width: 100%;
+      max-width: 280px;
+      padding: 14px 18px;
+      font-size: 1.4rem;
+      font-weight: 700;
+      font-family: inherit;
+      border: 3px solid #D1D5DB;
+      border-radius: 16px;
+      text-align: center;
+      text-transform: lowercase;
+    }
+    .word-input:focus {
+      outline: none;
+      border-color: var(--primary);
+    }
+
+    .check-btn {
+      background: linear-gradient(135deg, #34D399, #10B981);
+      color: white;
+      border: none;
+      border-radius: 50px;
+      padding: 14px 32px;
+      font-family: inherit;
+      font-size: 1.2rem;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: var(--shadow);
+      margin-top: 12px;
+      transition: all 0.2s;
+    }
+    .check-btn:hover { transform: scale(1.05); }
+
+    /* Feedback */
+    .feedback {
+      text-align: center;
+      padding: 16px;
+      font-size: 1.3rem;
+      font-weight: 700;
+      border-radius: 20px;
+      margin: 16px 0;
+      animation: pop 0.3s;
+    }
+    .feedback.good {
+      background: #D1FAE5;
+      color: #065F46;
+    }
+    .feedback.bad {
+      background: #FEE2E2;
+      color: #991B1B;
+    }
+
+    .next-btn {
+      background: linear-gradient(135deg, #60A5FA, #3B82F6);
+      color: white;
+      border: none;
+      border-radius: 50px;
+      padding: 14px 36px;
+      font-family: inherit;
+      font-size: 1.2rem;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: var(--shadow);
+      display: none;
+      margin: 10px auto;
+      transition: all 0.2s;
+    }
+    .next-btn.show { display: inline-block; }
+    .next-btn:hover { transform: scale(1.05); }
+
+    /* Progress bar */
+    .progress-bar-wrap {
+      background: #E5E7EB;
+      border-radius: 20px;
+      height: 12px;
+      margin: 0 auto 20px;
+      max-width: 400px;
+      overflow: hidden;
+    }
+    .progress-bar {
+      height: 100%;
+      background: linear-gradient(90deg, #34D399, #10B981);
+      border-radius: 20px;
+      transition: width 0.4s ease;
+      width: 0%;
+    }
+
+    /* Result screen */
+    .result-box {
+      background: white;
+      border-radius: 32px;
+      padding: 40px 24px;
+      text-align: center;
+      box-shadow: var(--shadow);
+      max-width: 400px;
+      margin: 40px auto;
+      animation: pop 0.5s;
+    }
+    .result-box .big-star {
+      font-size: 5rem;
+      animation: starSpin 1s ease;
+    }
+    .result-box h2 {
+      font-size: 2rem;
+      margin: 12px 0;
+      color: var(--primary);
+    }
+    .result-box p {
+      font-size: 1.2rem;
+      color: #6B7280;
+      margin-bottom: 24px;
+    }
+
+    /* Match game */
+    .match-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+    .match-item {
+      background: #F3F4F6;
+      border: 3px solid transparent;
+      border-radius: 16px;
+      padding: 14px;
+      font-size: 1.1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      text-align: center;
+    }
+    .match-item.selected { border-color: var(--primary); background: #FCE7F3; }
+    .match-item.matched {
+      background: #D1FAE5;
+      border-color: #10B981;
+      opacity: 0.7;
+      pointer-events: none;
+    }
+
+    /* Odd one out */
+    .odd-row {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin: 16px 0;
+    }
+    .odd-item {
+      font-size: 3.5rem;
+      background: #F9FAFB;
+      border: 4px solid transparent;
+      border-radius: 20px;
+      padding: 12px 16px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .odd-item:hover { transform: scale(1.08); }
+    .odd-item.correct { border-color: #10B981; background: #D1FAE5; }
+    .odd-item.wrong { border-color: #EF4444; background: #FEE2E2; }
+
+    /* Sentence builder */
+    .word-bank {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      justify-content: center;
+      margin: 16px 0;
+    }
+    .word-chip {
+      background: #DBEAFE;
+      border: 2px solid #93C5FD;
+      border-radius: 12px;
+      padding: 10px 14px;
+      font-size: 1.15rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      user-select: none;
+    }
+    .word-chip:hover { background: #BFDBFE; }
+    .word-chip.used { opacity: 0.3; pointer-events: none; }
+
+    .sentence-slot {
+      min-height: 60px;
+      background: #FEF3C7;
+      border: 3px dashed #F59E0B;
+      border-radius: 16px;
+      padding: 12px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+
+    /* Speaking */
+    .speak-prompt {
+      font-size: 1.4rem;
+      font-weight: 600;
+      margin: 20px 0;
+      color: #374151;
+    }
+
+    /* Footer tips */
+    .tip {
+      text-align: center;
+      font-size: 0.95rem;
+      color: #9CA3AF;
+      margin-top: 20px;
+      padding: 0 10px;
+    }
+
+    /* Responsive */
+    @media (max-width: 480px) {
+      .hero h1 { font-size: 1.7rem; }
+      .unit-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+      .mode-grid { grid-template-columns: 1fr; }
+      .flash-emoji { font-size: 4.5rem; }
+      .flash-word { font-size: 1.9rem; }
+      .letter-box { width: 36px; height: 44px; font-size: 1.3rem; }
+    }
+
+    /* Confetti */
+    .confetti {
+      position: fixed;
+      width: 10px;
+      height: 10px;
+      background: #FF6B9D;
+      top: -10px;
+      z-index: 9999;
+      animation: fall 2.5s linear forwards;
+    }
+    @keyframes fall {
+      to { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+    }
+
+    /* Mini-game elements */
+    .falling-item {
+      position: absolute;
+      font-size: 2.4rem;
+      cursor: pointer;
+      user-select: none;
+      transition: transform 0.1s;
+      z-index: 10;
+    }
+    .falling-item:active { transform: scale(1.2); }
+    .basket, .duck-mouth, .tree, .cat {
+      position: absolute;
+      font-size: 3.5rem;
+      z-index: 5;
+      transition: left 0.15s ease-out;
+    }
+    .game-over-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(255,255,255,0.92);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 50;
+      border-radius: 24px;
+      animation: pop 0.4s;
+    }
+  </style>
+</head>
+<body>
+  <!-- ========== HOME SCREEN ========== -->
+  <div id="home" class="screen active">
+    <div class="header">
+      <div class="logo"><span>🌈</span> Happy English</div>
+      <div class="score-box">
+        <span class="stars">⭐</span>
+        <span id="totalStars">0</span>
+      </div>
+    </div>
+
+    <div class="hero">
+      <div class="characters">👦👧</div>
+      <h1>Happy English Playground</h1>
+      <p>Grade 1 • Units 1–8 • Learn & Play!</p>
+      <button class="check-btn" style="margin-top:8px;background:linear-gradient(135deg,#FBBF24,#F59E0B);font-size:1rem;padding:10px 22px" onclick="showRanking()">
+        🏆 Class Ranking
+      </button>
+    </div>
+
+    <div class="unit-grid" id="unitGrid"></div>
+  </div>
+
+  <!-- ========== UNIT MENU ========== -->
+  <div id="unitMenu" class="screen">
+    <button class="back-btn" onclick="goHome()">← Home</button>
+    <div class="unit-header">
+      <span class="big-emoji" id="unitEmoji">🚲</span>
+      <h2 id="unitTitle">Unit 1</h2>
+      <div class="subtitle" id="unitSubtitle">In the school playground</div>
+    </div>
+
+    <div class="mode-grid">
+      <button class="mode-btn learn" onclick="startLearn()">
+        <span class="icon">📚</span>
+        Learn Words
+      </button>
+      <button class="mode-btn vocab" onclick="startVocabQuiz()">
+        <span class="icon">🎯</span>
+        Vocab Games
+      </button>
+      <button class="mode-btn grammar" onclick="startGrammar()">
+        <span class="icon">✏️</span>
+        Grammar
+      </button>
+      <button class="mode-btn writing" onclick="startWriting()">
+        <span class="icon">📝</span>
+        Writing
+      </button>
+      <button class="mode-btn quiz" onclick="startMixedQuiz()">
+        <span class="icon">🏆</span>
+        Fun Quiz
+      </button>
+      <button class="mode-btn speaking" onclick="startSpeaking()">
+        <span class="icon">🗣️</span>
+        Speaking
+      </button>
+      <button class="mode-btn" style="background:linear-gradient(135deg,#FBBF24,#F59E0B);color:white;grid-column:1/-1" onclick="showMiniGames()">
+        <span class="icon">🎮</span>
+        Unit Adventure & Mini Games
+      </button>
+    </div>
+    <p class="tip">💡 Tip: Tap the speaker button to hear the words clearly!</p>
+  </div>
+
+  <!-- ========== LEARN SCREEN ========== -->
+  <div id="learnScreen" class="screen">
+    <button class="back-btn" onclick="showUnitMenu()">← Back</button>
+    <div class="flash-container">
+      <div class="progress-bar-wrap"><div class="progress-bar" id="learnProgress"></div></div>
+      <div class="flash-card" id="flashCard">
+        <!-- filled by JS -->
+      </div>
+      <div class="nav-btns">
+        <button class="nav-btn" id="prevBtn" onclick="prevCard()">◀</button>
+        <button class="speak-btn" onclick="speakCurrent()">🔊 Hear it!</button>
+        <button class="nav-btn" id="nextBtn" onclick="nextCard()">▶</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== PRACTICE SCREEN ========== -->
+  <div id="practiceScreen" class="screen">
+    <button class="back-btn" onclick="showUnitMenu()">← Back</button>
+    <div class="progress-bar-wrap"><div class="progress-bar" id="practiceProgress"></div></div>
+    <div class="practice-area" id="practiceArea">
+      <!-- filled by JS -->
+    </div>
+  </div>
+
+  <!-- ========== MINI GAMES MENU ========== -->
+  <div id="miniGamesMenu" class="screen">
+    <button class="back-btn" onclick="showUnitMenu()">← Back</button>
+    <div class="unit-header">
+      <span class="big-emoji" id="miniGameUnitEmoji">🎮</span>
+      <h2>Unit Adventure Games</h2>
+      <div class="subtitle" id="miniGameUnitName">Chọn Unit rồi chơi game riêng của bài!</div>
+    </div>
+
+    <!-- Big Unit Adventure button -->
+    <div style="max-width:420px;margin:0 auto 20px">
+      <button class="mode-btn" style="width:100%;background:linear-gradient(135deg,#FF6B9D,#A78BFA);color:white;padding:22px" onclick="startUnitAdventure()">
+        <span class="icon" style="font-size:2.8rem" id="adventureEmoji">🌟</span>
+        <div style="font-size:1.25rem" id="adventureTitle">Unit Adventure</div>
+        <div style="font-size:0.9rem;opacity:0.9;margin-top:4px" id="adventureDesc">Game riêng theo chủ đề Unit</div>
+      </button>
+    </div>
+
+    <div class="mode-grid" style="max-width:520px">
+      <button class="mode-btn" style="background:linear-gradient(135deg,#60A5FA,#3B82F6);color:white" onclick="startWordCatch()">
+        <span class="icon">🎯</span>
+        Word Catch
+      </button>
+      <button class="mode-btn" style="background:linear-gradient(135deg,#34D399,#10B981);color:white" onclick="startPhonicsPop()">
+        <span class="icon">🔤</span>
+        Phonics Pop
+      </button>
+      <button class="mode-btn" style="background:linear-gradient(135deg,#A78BFA,#818CF8);color:white" onclick="startListenMatch()">
+        <span class="icon">🔊</span>
+        Listen & Match
+      </button>
+      <button class="mode-btn" style="background:linear-gradient(135deg,#FBBF24,#F59E0B);color:white" onclick="startHorseRace()">
+        <span class="icon">🐴</span>
+        Horse Race
+      </button>
+      <button class="mode-btn" style="background:linear-gradient(135deg,#4ADE80,#22C55E);color:white" onclick="startSoccerKick()">
+        <span class="icon">⚽</span>
+        Soccer Kick
+      </button>
+      <button class="mode-btn" style="background:linear-gradient(135deg,#FB923C,#F97316);color:white" onclick="startRunRace()">
+        <span class="icon">🏃</span>
+        Run to Finish
+      </button>
+      <button class="mode-btn" style="background:linear-gradient(135deg,#38BDF8,#0EA5E9);color:white" onclick="startBikeRace()">
+        <span class="icon">🚲</span>
+        Bike Race
+      </button>
+      <button class="mode-btn" style="background:linear-gradient(135deg,#F472B6,#EC4899);color:white" onclick="showRanking()">
+        <span class="icon">🏆</span>
+        Class Ranking
+      </button>
+    </div>
+    <p class="tip">Đua ngựa / Đá bóng / Chạy / Đạp xe — trả lời đúng từ vựng Unit mới được chạy!</p>
+  </div>
+
+  <!-- ========== RANKING SCREEN ========== -->
+  <div id="rankingScreen" class="screen">
+    <button class="back-btn" onclick="showMiniGames()">← Back</button>
+    <div class="unit-header">
+      <span class="big-emoji">🏆</span>
+      <h2>Class Ranking</h2>
+      <div class="subtitle">Ai là quán quân lớp mình?</div>
+    </div>
+    <div style="max-width:420px;margin:0 auto;background:white;border-radius:24px;padding:20px;box-shadow:var(--shadow)">
+      <div style="margin-bottom:16px">
+        <input type="text" id="playerNameInput" placeholder="Nhập tên học sinh..." maxlength="20"
+          style="width:100%;padding:12px 16px;font-size:1.15rem;font-family:inherit;border:3px solid #D1D5DB;border-radius:14px;text-align:center">
+        <button class="check-btn" style="width:100%;margin-top:10px" onclick="savePlayerScore()">Lưu điểm của mình ⭐</button>
+      </div>
+      <div id="rankingList" style="min-height:200px"></div>
+      <button class="next-btn show" style="width:100%;margin-top:12px;background:#EF4444" onclick="clearRanking()">Xóa bảng xếp hạng</button>
+    </div>
+  </div>
+
+  <!-- ========== GAME SCREEN ========== -->
+  <div id="gameScreen" class="screen">
+    <button class="back-btn" onclick="endGame(false)">← Quit</button>
+    <div style="text-align:center;margin-bottom:8px">
+      <div id="gameTitle" style="font-size:1.4rem;font-weight:700;color:var(--primary)"></div>
+      <div style="display:flex;justify-content:center;gap:20px;margin-top:8px;font-weight:700;font-size:1.2rem">
+        <span>⭐ <span id="gameScore">0</span></span>
+        <span>⏱️ <span id="gameTime">20</span>s</span>
+      </div>
+    </div>
+    <div id="gameArea" style="position:relative;width:100%;max-width:400px;height:420px;margin:0 auto;background:linear-gradient(180deg,#E0F2FE,#FEF3C7);border-radius:24px;overflow:hidden;box-shadow:var(--shadow);touch-action:none">
+      <!-- game elements injected here -->
+    </div>
+    <div id="gameMessage" style="text-align:center;margin-top:16px;font-size:1.2rem;font-weight:700;min-height:30px"></div>
+  </div>
+
+  <!-- ========== RESULT SCREEN ========== -->
+  <div id="resultScreen" class="screen">
+    <div class="result-box">
+      <div class="big-star">🌟</div>
+      <h2 id="resultTitle">Awesome!</h2>
+      <p id="resultText">You got 8 / 10 correct!</p>
+      <div style="font-size:2rem;margin:16px 0" id="resultStars">⭐⭐⭐</div>
+      <button class="check-btn" onclick="showUnitMenu()">Back to Unit</button>
+      <button class="next-btn show" style="margin-left:10px;background:linear-gradient(135deg,#FBBF24,#F59E0B)" onclick="showMiniGames()">🎮 Play Mini Game</button>
+      <br>
+      <button class="next-btn show" style="margin-top:10px;background:linear-gradient(135deg,#A78BFA,#818CF8)" onclick="goHome()">Home</button>
+    </div>
+  </div>
+
+  <script>
+    // ==================== DATA ====================
+    const UNITS = [
+      {
+        id: 1,
+        title: "Unit 1",
+        name: "In the school playground",
+        emoji: "🚲",
+        phonics: "Bb - /b/",
+        color: "#60A5FA",
+        words: [
+          { word: "ball", phonetic: "/bɔːl/", emoji: "🏐", sentence: "I have a ball." },
+          { word: "bike", phonetic: "/baɪk/", emoji: "🚲", sentence: "I have a bike." },
+          { word: "book", phonetic: "/bʊk/", emoji: "📘", sentence: "I have a book." }
+        ],
+        pattern: "Hi, I'm Bill. Bye, Bill."
+      },
+      {
+        id: 2,
+        title: "Unit 2",
+        name: "In the dining room",
+        emoji: "🍰",
+        phonics: "Cc - /k/",
+        color: "#F472B6",
+        words: [
+          { word: "cake", phonetic: "/keɪk/", emoji: "🍰", sentence: "I have a cake." },
+          { word: "car", phonetic: "/kɑː/", emoji: "🚗", sentence: "I have a car." },
+          { word: "cat", phonetic: "/kæt/", emoji: "🐱", sentence: "I have a cat." },
+          { word: "cup", phonetic: "/kʌp/", emoji: "☕", sentence: "I have a cup." }
+        ],
+        pattern: "I have a car."
+      },
+      {
+        id: 3,
+        title: "Unit 3",
+        name: "At the street market",
+        emoji: "🍎",
+        phonics: "Aa - /æ/",
+        color: "#FB923C",
+        words: [
+          { word: "apple", phonetic: "/ˈæp.əl/", emoji: "🍎", sentence: "This is an apple." },
+          { word: "bag", phonetic: "/bæg/", emoji: "🎒", sentence: "This is my bag." },
+          { word: "can", phonetic: "/kæn/", emoji: "🥫", sentence: "This is a can." },
+          { word: "hat", phonetic: "/hæt/", emoji: "👒", sentence: "This is my hat." }
+        ],
+        pattern: "This is my bag."
+      },
+      {
+        id: 4,
+        title: "Unit 4",
+        name: "In the bedroom",
+        emoji: "🐶",
+        phonics: "Dd - /d/",
+        color: "#34D399",
+        words: [
+          { word: "desk", phonetic: "/desk/", emoji: "🗄️", sentence: "This is a desk." },
+          { word: "dog", phonetic: "/dɒg/", emoji: "🐶", sentence: "This is a dog." },
+          { word: "door", phonetic: "/dɔː/", emoji: "🚪", sentence: "This is a door." },
+          { word: "duck", phonetic: "/dʌk/", emoji: "🦆", sentence: "This is a duck." }
+        ],
+        pattern: "This is a dog."
+      },
+      {
+        id: 5,
+        title: "Unit 5",
+        name: "At the fish and chip shop",
+        emoji: "🐟",
+        phonics: "Ii - /ɪ/",
+        color: "#FBBF24",
+        words: [
+          { word: "chicken", phonetic: "/ˈtʃɪk.ɪn/", emoji: "🍗", sentence: "I like chicken." },
+          { word: "chips", phonetic: "/tʃɪps/", emoji: "🍟", sentence: "I like chips." },
+          { word: "fish", phonetic: "/fɪʃ/", emoji: "🐟", sentence: "I like fish." },
+          { word: "milk", phonetic: "/mɪlk/", emoji: "🥛", sentence: "I like milk." }
+        ],
+        pattern: "I like milk."
+      },
+      {
+        id: 6,
+        title: "Unit 6",
+        name: "In the classroom",
+        emoji: "✏️",
+        phonics: "Ee - /e/",
+        color: "#A78BFA",
+        words: [
+          { word: "bell", phonetic: "/bel/", emoji: "🔔", sentence: "It's a bell." },
+          { word: "pen", phonetic: "/pen/", emoji: "🖊️", sentence: "It's a red pen." },
+          { word: "pencil", phonetic: "/ˈpen.səl/", emoji: "✏️", sentence: "It's a pencil." },
+          { word: "red", phonetic: "/red/", emoji: "🔴", sentence: "It's a red pen." }
+        ],
+        pattern: "It's a red pen."
+      },
+      {
+        id: 7,
+        title: "Unit 7",
+        name: "In the garden",
+        emoji: "🌸",
+        phonics: "Gg - /g/",
+        color: "#4ADE80",
+        words: [
+          { word: "garden", phonetic: "/ˈgɑː.dən/", emoji: "🏡", sentence: "There's a garden." },
+          { word: "gate", phonetic: "/geɪt/", emoji: "🚧", sentence: "There's a gate." },
+          { word: "girl", phonetic: "/gɜːl/", emoji: "👧", sentence: "There's a girl." },
+          { word: "goat", phonetic: "/gəʊt/", emoji: "🐐", sentence: "There's a goat." }
+        ],
+        pattern: "There's a garden."
+      },
+      {
+        id: 8,
+        title: "Unit 8",
+        name: "In the park",
+        emoji: "🐴",
+        phonics: "Hh - /h/",
+        color: "#F87171",
+        words: [
+          { word: "hair", phonetic: "/heə/", emoji: "💇‍♀️", sentence: "Touch your hair." },
+          { word: "hand", phonetic: "/hænd/", emoji: "✋", sentence: "Touch your hand." },
+          { word: "head", phonetic: "/hed/", emoji: "🗣️", sentence: "Touch your head." },
+          { word: "horse", phonetic: "/hɔːs/", emoji: "🐴", sentence: "There's a horse." }
+        ],
+        pattern: "Touch your hair."
+      }
+    ];
+
+    // ==================== SAFE STORAGE (works even in sandboxed iframes) ====================
+    const memoryStore = {};
+    function safeGet(key, fallback) {
+      try {
+        const val = localStorage.getItem(key);
+        return val !== null ? val : fallback;
+      } catch (e) {
+        return memoryStore[key] !== undefined ? memoryStore[key] : fallback;
+      }
+    }
+    function safeSet(key, value) {
+      try {
+        localStorage.setItem(key, value);
+      } catch (e) {
+        memoryStore[key] = value;
+      }
+    }
+
+    // Global state
+    let currentUnit = null;
+    let currentCardIndex = 0;
+    let practiceQuestions = [];
+    let currentQ = 0;
+    let score = 0;
+    let totalStars = parseInt(safeGet('happyEnglishStars', '0'));
+    let unitProgress = JSON.parse(safeGet('happyEnglishProgress', '{}'));
+
+    // ==================== TTS ====================
+    function speak(text, rate = 0.85) {
+      if (!window.speechSynthesis) return;
+      window.speechSynthesis.cancel();
+      const u = new SpeechSynthesisUtterance(text);
+      u.lang = 'en-US';
+      u.rate = rate;
+      u.pitch = 1.1;
+      // Prefer a clear female or child-friendly voice if available
+      const voices = speechSynthesis.getVoices();
+      const preferred = voices.find(v => v.lang.startsWith('en') && (v.name.includes('Female') || v.name.includes('Samantha') || v.name.includes('Google')));
+      if (preferred) u.voice = preferred;
+      speechSynthesis.speak(u);
+    }
+
+    function speakCurrent() {
+      if (!currentUnit) return;
+      const w = currentUnit.words[currentCardIndex];
+      speak(w.word);
+      setTimeout(() => speak(w.sentence, 0.8), 900);
+    }
+
+    // Load voices
+    speechSynthesis.onvoiceschanged = () => {};
+
+    // ==================== UI HELPERS ====================
+    function showScreen(id) {
+      document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+      document.getElementById(id).classList.add('active');
+    }
+
+    function updateStars() {
+      document.getElementById('totalStars').textContent = totalStars;
+      safeSet('happyEnglishStars', totalStars);
+    }
+
+    function addStars(n) {
+      totalStars += n;
+      updateStars();
+    }
+
+    function confetti() {
+      const colors = ['#FF6B9D', '#4ECDC4', '#FFE66D', '#A78BFA', '#60A5FA', '#34D399'];
+      for (let i = 0; i < 40; i++) {
+        const el = document.createElement('div');
+        el.className = 'confetti';
+        el.style.left = Math.random() * 100 + 'vw';
+        el.style.background = colors[Math.floor(Math.random() * colors.length)];
+        el.style.width = (6 + Math.random() * 8) + 'px';
+        el.style.height = el.style.width;
+        el.style.animationDuration = (1.5 + Math.random() * 2) + 's';
+        el.style.animationDelay = Math.random() * 0.5 + 's';
+        document.body.appendChild(el);
+        setTimeout(() => el.remove(), 3000);
+      }
+    }
+
+    // ==================== HOME ====================
+    function renderHome() {
+      const grid = document.getElementById('unitGrid');
+      grid.innerHTML = UNITS.map(u => {
+        const prog = unitProgress[u.id] || 0;
+        return `
+          <div class="unit-card" onclick="selectUnit(${u.id})" style="border-color:${prog >= 80 ? '#10B981' : 'transparent'}">
+            <span class="emoji">${u.emoji}</span>
+            <h3>${u.title}</h3>
+            <div style="font-size:0.85rem;color:#6B7280;margin:4px 0">${u.name}</div>
+            <span class="phonics">${u.phonics}</span>
+            <div class="progress" style="width:${prog}%"></div>
+          </div>
+        `;
+      }).join('');
+      updateStars();
+    }
+
+    function selectUnit(id) {
+      currentUnit = UNITS.find(u => u.id === id);
+      document.getElementById('unitEmoji').textContent = currentUnit.emoji;
+      document.getElementById('unitTitle').textContent = currentUnit.title;
+      document.getElementById('unitSubtitle').textContent = currentUnit.name + ' • ' + currentUnit.phonics;
+      showScreen('unitMenu');
+    }
+
+    function goHome() {
+      renderHome();
+      showScreen('home');
+    }
+
+    function showUnitMenu() {
+      showScreen('unitMenu');
+    }
+
+    // ==================== LEARN ====================
+    function startLearn() {
+      currentCardIndex = 0;
+      showScreen('learnScreen');
+      renderCard();
+    }
+
+    function renderCard() {
+      const w = currentUnit.words[currentCardIndex];
+      const total = currentUnit.words.length;
+      document.getElementById('learnProgress').style.width = ((currentCardIndex + 1) / total * 100) + '%';
+
+      document.getElementById('flashCard').innerHTML = `
+        <div class="flash-emoji" onclick="speak('${w.word}')">${w.emoji}</div>
+        <div class="flash-word">${w.word}</div>
+        <div class="flash-phonetic">${w.phonetic}</div>
+        <div class="flash-sentence">${w.sentence}</div>
+        <div style="margin-top:16px;font-size:0.95rem;color:#9CA3AF">
+          Card ${currentCardIndex + 1} / ${total} • Phonics: ${currentUnit.phonics}
+        </div>
+      `;
+
+      document.getElementById('prevBtn').disabled = currentCardIndex === 0;
+      document.getElementById('nextBtn').disabled = currentCardIndex === total - 1;
+    }
+
+    function prevCard() {
+      if (currentCardIndex > 0) {
+        currentCardIndex--;
+        renderCard();
+      }
+    }
+
+    function nextCard() {
+      if (currentCardIndex < currentUnit.words.length - 1) {
+        currentCardIndex++;
+        renderCard();
+      }
+    }
+
+    // ==================== VOCAB QUIZ ====================
+    function startVocabQuiz() {
+      // Mix of: choose picture, choose word, odd one out, match
+      const words = currentUnit.words;
+      practiceQuestions = [];
+
+      // Type 1: Look at emoji → choose word
+      words.forEach(w => {
+        const distractors = getDistractors(w.word, 3);
+        practiceQuestions.push({
+          type: 'chooseWord',
+          emoji: w.emoji,
+          question: 'What is this?',
+          options: shuffle([w.word, ...distractors]),
+          answer: w.word
+        });
+      });
+
+      // Type 2: Listen & choose (TTS the word)
+      words.forEach(w => {
+        const distractors = getDistractors(w.word, 3);
+        practiceQuestions.push({
+          type: 'listenChoose',
+          question: '🔊 Listen and choose the correct word',
+          speakText: w.word,
+          options: shuffle([w.word, ...distractors]),
+          answer: w.word
+        });
+      });
+
+      // Type 3: Odd one out (by starting sound)
+      if (words.length >= 3) {
+        practiceQuestions.push({
+          type: 'oddOne',
+          question: 'Circle the picture with a DIFFERENT beginning sound',
+          items: createOddOneItems()
+        });
+      }
+
+      practiceQuestions = shuffle(practiceQuestions).slice(0, 8);
+      currentQ = 0;
+      score = 0;
+      showScreen('practiceScreen');
+      renderQuestion();
+    }
+
+    function createOddOneItems() {
+      // Simple: take 2 from current unit + 1 from another
+      const same = currentUnit.words.slice(0, 2).map(w => ({ emoji: w.emoji, word: w.word, same: true }));
+      const otherUnit = UNITS.find(u => u.id !== currentUnit.id);
+      const odd = { emoji: otherUnit.words[0].emoji, word: otherUnit.words[0].word, same: false };
+      return shuffle([...same, odd]);
+    }
+
+    // ==================== GRAMMAR ====================
+    function startGrammar() {
+      practiceQuestions = [];
+      const pattern = currentUnit.pattern;
+      const words = currentUnit.words;
+
+      // Sentence order
+      words.forEach(w => {
+        const sent = w.sentence;
+        const parts = sent.replace('.', '').split(' ');
+        practiceQuestions.push({
+          type: 'sentenceOrder',
+          question: 'Put the words in the correct order',
+          words: shuffle([...parts]),
+          answer: sent
+        });
+      });
+
+      // Choose correct sentence
+      words.forEach(w => {
+        const wrongs = [
+          w.sentence.replace(w.word, getDistractors(w.word, 1)[0]),
+          'I have a ' + getDistractors(w.word, 1)[0] + '.'
+        ];
+        practiceQuestions.push({
+          type: 'chooseSentence',
+          emoji: w.emoji,
+          question: 'Choose the correct sentence',
+          options: shuffle([w.sentence, ...wrongs]),
+          answer: w.sentence
+        });
+      });
+
+      practiceQuestions = shuffle(practiceQuestions).slice(0, 8);
+      currentQ = 0;
+      score = 0;
+      showScreen('practiceScreen');
+      renderQuestion();
+    }
+
+    // ==================== WRITING ====================
+    function startWriting() {
+      practiceQuestions = [];
+      const words = currentUnit.words;
+
+      // Missing letters
+      words.forEach(w => {
+        const missing = createMissingLetters(w.word);
+        practiceQuestions.push({
+          type: 'missingLetters',
+          emoji: w.emoji,
+          question: 'Write the missing letters',
+          display: missing.display,
+          answer: w.word,
+          blanks: missing.blanks
+        });
+      });
+
+      // Scramble
+      words.forEach(w => {
+        practiceQuestions.push({
+          type: 'scramble',
+          emoji: w.emoji,
+          question: 'Rearrange the letters',
+          scrambled: scrambleWord(w.word),
+          answer: w.word
+        });
+      });
+
+      // Type the whole word
+      words.forEach(w => {
+        practiceQuestions.push({
+          type: 'typeWord',
+          emoji: w.emoji,
+          question: 'Look and write the word',
+          answer: w.word
+        });
+      });
+
+      practiceQuestions = shuffle(practiceQuestions).slice(0, 10);
+      currentQ = 0;
+      score = 0;
+      showScreen('practiceScreen');
+      renderQuestion();
+    }
+
+    // ==================== MIXED QUIZ ====================
+    function startMixedQuiz() {
+      // Combination of vocab + grammar + writing
+      startVocabQuiz(); // reuse, or expand
+      // Add a few more writing
+      const extra = currentUnit.words.map(w => ({
+        type: 'typeWord',
+        emoji: w.emoji,
+        question: 'Write the word',
+        answer: w.word
+      }));
+      practiceQuestions = shuffle([...practiceQuestions, ...extra]).slice(0, 10);
+      currentQ = 0;
+      score = 0;
+      renderQuestion();
+    }
+
+    // ==================== SPEAKING ====================
+    function startSpeaking() {
+      practiceQuestions = currentUnit.words.map(w => ({
+        type: 'speaking',
+        emoji: w.emoji,
+        question: 'Look and say the word / sentence',
+        word: w.word,
+        sentence: w.sentence
+      }));
+      // Add pattern
+      practiceQuestions.push({
+        type: 'speaking',
+        emoji: currentUnit.emoji,
+        question: 'Say the sentence pattern',
+        word: currentUnit.pattern,
+        sentence: currentUnit.pattern
+      });
+      practiceQuestions = shuffle(practiceQuestions);
+      currentQ = 0;
+      score = 0;
+      showScreen('practiceScreen');
+      renderQuestion();
+    }
+
+    // ==================== RENDER QUESTION ====================
+    function renderQuestion() {
+      const area = document.getElementById('practiceArea');
+      const total = practiceQuestions.length;
+      document.getElementById('practiceProgress').style.width = (currentQ / total * 100) + '%';
+
+      if (currentQ >= total) {
+        showResult();
+        return;
+      }
+
+      const q = practiceQuestions[currentQ];
+      let html = `<div class="question-card">
+        <div class="q-number">Question ${currentQ + 1} / ${total}</div>
+        <div class="q-text">${q.question}</div>`;
+
+      if (q.type === 'chooseWord' || q.type === 'listenChoose') {
+        if (q.emoji) html += `<div style="font-size:4.5rem;margin:12px 0">${q.emoji}</div>`;
+        if (q.type === 'listenChoose') {
+          html += `<button class="speak-btn" onclick="speak('${q.speakText}')" style="margin-bottom:16px">🔊 Play sound</button>`;
+        }
+        html += `<div class="options">
+          ${q.options.map(opt => `
+            <button class="option-btn" onclick="checkChoice(this, '${opt}', '${q.answer}')">${opt}</button>
+          `).join('')}
+        </div>`;
+      }
+
+      else if (q.type === 'chooseSentence') {
+        html += `<div style="font-size:4rem;margin:10px 0">${q.emoji}</div>
+          <div class="options">
+          ${q.options.map(opt => `
+            <button class="option-btn" onclick="checkChoice(this, '${opt.replace(/'/g,"\\'")}', '${q.answer.replace(/'/g,"\\'")}')">${opt}</button>
+          `).join('')}
+        </div>`;
+      }
+
+      else if (q.type === 'oddOne') {
+        html += `<div class="odd-row">
+          ${q.items.map((item, i) => `
+            <div class="odd-item" onclick="checkOdd(this, ${!item.same})">${item.emoji}</div>
+          `).join('')}
+        </div>`;
+      }
+
+      else if (q.type === 'missingLetters') {
+        html += `<div style="font-size:4rem;margin:10px 0">${q.emoji}</div>
+          <div style="font-size:1.8rem;letter-spacing:4px;margin:12px 0;font-weight:700">${q.display}</div>
+          <div class="write-area">
+            <input type="text" class="word-input" id="writeInput" placeholder="type the word..." autocomplete="off" autocapitalize="none">
+          </div>
+          <button class="check-btn" onclick="checkWriting('${q.answer}')">Check ✓</button>`;
+      }
+
+      else if (q.type === 'scramble') {
+        html += `<div style="font-size:4rem;margin:10px 0">${q.emoji}</div>
+          <div style="font-size:1.6rem;letter-spacing:6px;background:#FEF3C7;padding:10px 20px;border-radius:12px;display:inline-block;margin:10px 0;font-weight:700">${q.scrambled}</div>
+          <div class="write-area">
+            <input type="text" class="word-input" id="writeInput" placeholder="type the correct word..." autocomplete="off" autocapitalize="none">
+          </div>
+          <button class="check-btn" onclick="checkWriting('${q.answer}')">Check ✓</button>`;
+      }
+
+      else if (q.type === 'typeWord') {
+        html += `<div style="font-size:5rem;margin:16px 0">${q.emoji}</div>
+          <div class="write-area">
+            <input type="text" class="word-input" id="writeInput" placeholder="write the word..." autocomplete="off" autocapitalize="none">
+          </div>
+          <button class="check-btn" onclick="checkWriting('${q.answer}')">Check ✓</button>`;
+      }
+
+      else if (q.type === 'sentenceOrder') {
+        html += `<div class="sentence-slot" id="sentenceSlot"></div>
+          <div class="word-bank" id="wordBank">
+            ${q.words.map((w,i) => `<div class="word-chip" data-word="${w}" onclick="addWord(this)">${w}</div>`).join('')}
+          </div>
+          <button class="check-btn" onclick="checkSentence('${q.answer.replace(/'/g,"\\'")}')">Check ✓</button>
+          <button class="nav-btn" style="width:auto;padding:8px 16px;margin-left:8px;font-size:1rem;border-radius:20px" onclick="clearSentence()">Clear</button>`;
+      }
+
+      else if (q.type === 'speaking') {
+        html += `<div style="font-size:5rem;margin:16px 0">${q.emoji}</div>
+          <div class="speak-prompt">${q.word}</div>
+          <div style="color:#6B7280;margin-bottom:16px">${q.sentence}</div>
+          <button class="speak-btn" onclick="speak('${q.sentence.replace(/'/g,"\\'")}')">🔊 Listen first</button>
+          <p style="margin-top:20px;color:#9CA3AF">Now say it out loud! 🎤</p>
+          <button class="check-btn" style="margin-top:16px" onclick="nextQuestion(true)">I said it! ✓</button>`;
+      }
+
+      html += `<div id="feedback"></div>
+        <button class="next-btn" id="nextQBtn" onclick="nextQuestion()">Next →</button>
+      </div>`;
+
+      area.innerHTML = html;
+
+      // Focus input if writing
+      const inp = document.getElementById('writeInput');
+      if (inp) {
+        inp.focus();
+        inp.addEventListener('keydown', e => {
+          if (e.key === 'Enter') checkWriting(q.answer);
+        });
+      }
+    }
+
+    // ==================== CHECK ANSWERS ====================
+    function checkChoice(btn, selected, answer) {
+      const buttons = btn.parentElement.querySelectorAll('.option-btn');
+      buttons.forEach(b => b.style.pointerEvents = 'none');
+
+      if (selected.toLowerCase() === answer.toLowerCase()) {
+        btn.classList.add('correct');
+        score++;
+        showFeedback(true);
+        speak('Great job!');
+      } else {
+        btn.classList.add('wrong');
+        buttons.forEach(b => {
+          if (b.textContent.toLowerCase() === answer.toLowerCase()) b.classList.add('correct');
+        });
+        showFeedback(false, answer);
+        speak('Try again');
+      }
+      document.getElementById('nextQBtn').classList.add('show');
+    }
+
+    function checkOdd(el, isOdd) {
+      const items = el.parentElement.querySelectorAll('.odd-item');
+      items.forEach(i => i.style.pointerEvents = 'none');
+      if (isOdd) {
+        el.classList.add('correct');
+        score++;
+        showFeedback(true);
+        speak('Excellent!');
+      } else {
+        el.classList.add('wrong');
+        items.forEach(i => {
+          // mark the real odd one (we don't store easily, just feedback)
+        });
+        showFeedback(false);
+        speak('Not this one');
+      }
+      document.getElementById('nextQBtn').classList.add('show');
+    }
+
+    function checkWriting(answer) {
+      const inp = document.getElementById('writeInput');
+      if (!inp) return;
+      const val = inp.value.trim().toLowerCase();
+      if (val === answer.toLowerCase()) {
+        score++;
+        showFeedback(true);
+        speak('Perfect!');
+        inp.style.borderColor = '#10B981';
+        inp.style.background = '#D1FAE5';
+      } else {
+        showFeedback(false, answer);
+        speak('Almost! The word is ' + answer);
+        inp.style.borderColor = '#EF4444';
+        inp.style.background = '#FEE2E2';
+      }
+      document.getElementById('nextQBtn').classList.add('show');
+    }
+
+    let selectedWords = [];
+    function addWord(chip) {
+      if (chip.classList.contains('used')) return;
+      chip.classList.add('used');
+      selectedWords.push(chip.dataset.word);
+      document.getElementById('sentenceSlot').innerHTML = selectedWords.map(w => 
+        `<span class="word-chip" style="background:#FEF3C7;border-color:#F59E0B">${w}</span>`
+      ).join('');
+    }
+
+    function clearSentence() {
+      selectedWords = [];
+      document.getElementById('sentenceSlot').innerHTML = '';
+      document.querySelectorAll('#wordBank .word-chip').forEach(c => c.classList.remove('used'));
+    }
+
+    function checkSentence(answer) {
+      const userSent = selectedWords.join(' ') + (answer.endsWith('.') ? '.' : '');
+      const cleanAnswer = answer.replace('.', '').toLowerCase();
+      const cleanUser = selectedWords.join(' ').toLowerCase();
+      if (cleanUser === cleanAnswer) {
+        score++;
+        showFeedback(true);
+        speak('Wonderful!');
+      } else {
+        showFeedback(false, answer);
+        speak('The correct sentence is ' + answer);
+      }
+      document.getElementById('nextQBtn').classList.add('show');
+    }
+
+    function showFeedback(good, correctAnswer) {
+      const fb = document.getElementById('feedback');
+      if (good) {
+        fb.innerHTML = `<div class="feedback good">🎉 Fantastic! +1 star</div>`;
+        addStars(1);
+        confetti();
+      } else {
+        fb.innerHTML = `<div class="feedback bad">💪 Almost! ${correctAnswer ? 'Answer: <b>' + correctAnswer + '</b>' : 'Try the next one!'}</div>`;
+      }
+    }
+
+    function nextQuestion(forceCorrect = false) {
+      if (forceCorrect) {
+        score++;
+        addStars(1);
+      }
+      selectedWords = [];
+      currentQ++;
+      renderQuestion();
+    }
+
+    // ==================== RESULT ====================
+    function showResult() {
+      const total = practiceQuestions.length;
+      const percent = Math.round((score / total) * 100);
+      let stars = '⭐';
+      let title = 'Good try!';
+      if (percent >= 90) { stars = '⭐⭐⭐'; title = 'Amazing!'; confetti(); }
+      else if (percent >= 70) { stars = '⭐⭐'; title = 'Great job!'; }
+      else if (percent >= 50) { stars = '⭐'; title = 'Nice work!'; }
+
+      // Save progress
+      const prev = unitProgress[currentUnit.id] || 0;
+      unitProgress[currentUnit.id] = Math.max(prev, percent);
+      safeSet('happyEnglishProgress', JSON.stringify(unitProgress));
+
+      document.getElementById('resultTitle').textContent = title;
+      document.getElementById('resultText').textContent = `You got ${score} / ${total} correct! (${percent}%)`;
+      document.getElementById('resultStars').textContent = stars;
+      showScreen('resultScreen');
+      speak(title + '! You got ' + score + ' out of ' + total);
+    }
+
+    // ==================== HELPERS ====================
+    function getDistractors(correct, n) {
+      const all = UNITS.flatMap(u => u.words.map(w => w.word)).filter(w => w !== correct);
+      return shuffle(all).slice(0, n);
+    }
+
+    function shuffle(arr) {
+      const a = [...arr];
+      for (let i = a.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [a[i], a[j]] = [a[j], a[i]];
+      }
+      return a;
+    }
+
+    function scrambleWord(word) {
+      let arr = word.split('');
+      let result;
+      do {
+        result = shuffle(arr).join('');
+      } while (result === word && word.length > 1);
+      return result;
+    }
+
+    function createMissingLetters(word) {
+      // Hide 1-2 letters
+      const chars = word.split('');
+      const hideCount = word.length <= 3 ? 1 : 2;
+      const indices = shuffle([...Array(word.length).keys()]).slice(0, hideCount);
+      let display = '';
+      chars.forEach((c, i) => {
+        display += indices.includes(i) ? '_' : c;
+      });
+      return { display, blanks: indices };
+    }
+
+    // ==================== MINI GAMES ====================
+    let gameInterval = null;
+    let gameTimer = null;
+    let gameActive = false;
+    let gameScoreVal = 0;
+    let gameTimeLeft = 20;
+    let currentGame = null;
+
+    function showMiniGames() {
+      if (currentUnit) {
+        document.getElementById('miniGameUnitEmoji').textContent = currentUnit.emoji;
+        document.getElementById('miniGameUnitName').textContent = currentUnit.title + ' • ' + currentUnit.name;
+        document.getElementById('adventureEmoji').textContent = currentUnit.emoji;
+        document.getElementById('adventureTitle').textContent = getUnitAdventureName(currentUnit.id);
+        document.getElementById('adventureDesc').textContent = getUnitAdventureDesc(currentUnit.id);
+      } else {
+        document.getElementById('miniGameUnitEmoji').textContent = '🎮';
+        document.getElementById('miniGameUnitName').textContent = 'Hãy chọn Unit trước để chơi game riêng!';
+        document.getElementById('adventureEmoji').textContent = '🌟';
+        document.getElementById('adventureTitle').textContent = 'Unit Adventure';
+        document.getElementById('adventureDesc').textContent = 'Chọn Unit ở trang chủ trước nhé';
+      }
+      showScreen('miniGamesMenu');
+    }
+
+    function getUnitAdventureName(id) {
+      const names = {
+        1: 'Catch on the Playground',
+        2: 'Dining Room Collector',
+        3: 'Market Shopping',
+        4: 'Bedroom Finders',
+        5: 'Fish & Chips Feast',
+        6: 'Classroom Helper',
+        7: 'Garden Explorer',
+        8: 'Park Adventure'
+      };
+      return names[id] || 'Unit Adventure';
+    }
+
+    function getUnitAdventureDesc(id) {
+      const descs = {
+        1: 'Bắt bóng, xe đạp & sách trên sân trường!',
+        2: 'Thu thập bánh, xe, mèo, cốc trong phòng ăn',
+        3: 'Đi chợ: hái táo, lấy túi, lon, mũ',
+        4: 'Tìm bàn, chó, cửa, vịt trong phòng ngủ',
+        5: 'Gom gà, khoai tây chiên, cá, sữa',
+        6: 'Giúp lớp: chuông, bút, bút chì, màu đỏ',
+        7: 'Khám phá vườn: cổng, bé gái, dê...',
+        8: 'Công viên: tóc, tay, đầu, ngựa'
+      };
+      return descs[id] || 'Game riêng theo chủ đề Unit';
+    }
+
+    // ========== UNIT ADVENTURE GAMES ==========
+    function startUnitAdventure() {
+      if (!currentUnit) {
+        alert('Hãy chọn một Unit ở trang chủ trước nhé!');
+        return;
+      }
+      // Each unit has its own themed game
+      const id = currentUnit.id;
+      if (id === 1) startPlaygroundCatch();
+      else if (id === 2) startDiningCollector();
+      else if (id === 3) startMarketShop();
+      else if (id === 4) startBedroomFind();
+      else if (id === 5) startFoodFeast();
+      else if (id === 6) startClassroomHelper();
+      else if (id === 7) startGardenExplore();
+      else if (id === 8) startParkAdventure();
+      else startWordCatch();
+    }
+
+    // Helper: generic themed catcher for a unit
+    function startThemedCatcher(title, seconds, targetWords, bgStyle, catchLabel) {
+      const area = startGameCommon(title, seconds);
+      if (bgStyle) area.style.background = bgStyle;
+
+      const words = targetWords || currentUnit.words;
+      let target = words[Math.floor(Math.random() * words.length)];
+
+      const label = document.createElement('div');
+      label.style.cssText = 'position:absolute;top:6px;left:0;right:0;text-align:center;font-weight:700;font-size:1.1rem;z-index:20;padding:0 8px';
+      label.innerHTML = `${catchLabel || 'Catch'}: <span style="color:var(--primary);font-size:1.3rem">${target.word}</span> ${target.emoji}`;
+      area.appendChild(label);
+
+      // Basket / catcher at bottom
+      const basket = document.createElement('div');
+      basket.style.cssText = 'position:absolute;bottom:8px;left:50%;transform:translateX(-50%);font-size:3.2rem;z-index:15;transition:left 0.12s';
+      basket.textContent = '🖐️';
+      area.appendChild(basket);
+      let basketX = 50;
+
+      const move = (clientX) => {
+        const rect = area.getBoundingClientRect();
+        basketX = Math.max(8, Math.min(92, ((clientX - rect.left) / rect.width) * 100));
+        basket.style.left = basketX + '%';
+      };
+      area.ontouchmove = (e) => { e.preventDefault(); move(e.touches[0].clientX); };
+      area.onmousemove = (e) => move(e.clientX);
+
+      const spawn = () => {
+        if (!gameActive) return;
+        if (Math.random() < 0.3) {
+          target = words[Math.floor(Math.random() * words.length)];
+          label.innerHTML = `${catchLabel || 'Catch'}: <span style="color:var(--primary);font-size:1.3rem">${target.word}</span> ${target.emoji}`;
+        }
+        const item = document.createElement('div');
+        item.className = 'falling-item';
+        const isTarget = Math.random() < 0.5;
+        const w = isTarget ? target : words[Math.floor(Math.random() * words.length)];
+        item.textContent = w.emoji;
+        item.dataset.word = w.word;
+        const startX = 10 + Math.random() * 75;
+        item.style.left = startX + '%';
+        item.style.top = '-45px';
+        item.style.fontSize = '2.6rem';
+        area.appendChild(item);
+
+        let y = -45;
+        const speed = 2.6 + Math.random() * 2.4;
+        const fall = setInterval(() => {
+          if (!gameActive) { clearInterval(fall); item.remove(); return; }
+          y += speed;
+          item.style.top = y + 'px';
+          // collision with hand
+          if (y > 310 && y < 380) {
+            if (Math.abs(startX - basketX) < 16) {
+              if (item.dataset.word === target.word) {
+                gameScoreVal += 2;
+                document.getElementById('gameMessage').textContent = 'Yes! ' + target.word + ' +2';
+                speak(target.word, 1);
+              } else {
+                gameScoreVal = Math.max(0, gameScoreVal - 1);
+                document.getElementById('gameMessage').textContent = 'Wrong one!';
+              }
+              updateGameUI();
+              item.remove();
+              clearInterval(fall);
+              setTimeout(() => document.getElementById('gameMessage').textContent = '', 450);
+              return;
+            }
+          }
+          if (y > 430) { item.remove(); clearInterval(fall); }
+        }, 30);
+
+        // also allow tap
+        item.onclick = () => {
+          if (!gameActive) return;
+          if (item.dataset.word === target.word) {
+            gameScoreVal += 2;
+            document.getElementById('gameMessage').textContent = 'Yes! +2';
+            speak(target.word, 1);
+          } else {
+            gameScoreVal = Math.max(0, gameScoreVal - 1);
+            document.getElementById('gameMessage').textContent = 'Oops!';
+          }
+          updateGameUI();
+          item.remove();
+          clearInterval(fall);
+        };
+      };
+
+      speak(getUnitAdventureName(currentUnit.id));
+      gameInterval = setInterval(spawn, 750);
+      for (let i = 0; i < 2; i++) setTimeout(spawn, i * 350);
+
+      gameTimer = setInterval(() => {
+        gameTimeLeft--;
+        updateGameUI();
+        if (gameTimeLeft <= 0) finishGame();
+      }, 1000);
+    }
+
+    // Unit 1 - Playground
+    function startPlaygroundCatch() {
+      startThemedCatcher('🚲 Catch on the Playground!', 22, currentUnit.words,
+        'linear-gradient(180deg,#BFDBFE,#FEF3C7)', 'Catch');
+    }
+
+    // Unit 2 - Dining room
+    function startDiningCollector() {
+      startThemedCatcher('🍰 Dining Room Collector!', 22, currentUnit.words,
+        'linear-gradient(180deg,#FECACA,#FEF3C7)', 'Collect');
+    }
+
+    // Unit 3 - Market
+    function startMarketShop() {
+      startThemedCatcher('🍎 Market Shopping!', 22, currentUnit.words,
+        'linear-gradient(180deg,#BBF7D0,#FEF3C7)', 'Buy');
+    }
+
+    // Unit 4 - Bedroom
+    function startBedroomFind() {
+      startThemedCatcher('🐶 Bedroom Finders!', 22, currentUnit.words,
+        'linear-gradient(180deg,#DDD6FE,#E0F2FE)', 'Find');
+    }
+
+    // Unit 5 - Food
+    function startFoodFeast() {
+      startThemedCatcher('🍟 Fish & Chips Feast!', 22, currentUnit.words,
+        'linear-gradient(180deg,#FED7AA,#FEF3C7)', 'Eat');
+    }
+
+    // Unit 6 - Classroom
+    function startClassroomHelper() {
+      startThemedCatcher('✏️ Classroom Helper!', 22, currentUnit.words,
+        'linear-gradient(180deg,#BFDBFE,#E0E7FF)', 'Get');
+    }
+
+    // Unit 7 - Garden
+    function startGardenExplore() {
+      startThemedCatcher('🌸 Garden Explorer!', 22, currentUnit.words,
+        'linear-gradient(180deg,#BBF7D0,#D9F99D)', 'Find');
+    }
+
+    // Unit 8 - Park
+    function startParkAdventure() {
+      startThemedCatcher('🐴 Park Adventure!', 22, currentUnit.words,
+        'linear-gradient(180deg,#A5F3FC,#FEF3C7)', 'Touch');
+    }
+
+    function endGame(won) {
+      gameActive = false;
+      if (gameInterval) clearInterval(gameInterval);
+      if (gameTimer) clearInterval(gameTimer);
+      gameInterval = null;
+      gameTimer = null;
+
+      if (won && gameScoreVal > 0) {
+        const bonus = Math.min(5, Math.floor(gameScoreVal / 3) + 1);
+        addStars(bonus);
+        confetti();
+        speak('Awesome! You earned ' + bonus + ' stars!');
+      }
+    }
+
+    function updateGameUI() {
+      document.getElementById('gameScore').textContent = gameScoreVal;
+      document.getElementById('gameTime').textContent = gameTimeLeft;
+    }
+
+    function startGameCommon(title, seconds) {
+      currentGame = title;
+      gameScoreVal = 0;
+      gameTimeLeft = seconds;
+      gameActive = true;
+      document.getElementById('gameTitle').textContent = title;
+      document.getElementById('gameMessage').textContent = '';
+      updateGameUI();
+      showScreen('gameScreen');
+      const area = document.getElementById('gameArea');
+      area.innerHTML = '';
+      return area;
+    }
+
+    function finishGame() {
+      gameActive = false;
+      if (gameInterval) clearInterval(gameInterval);
+      if (gameTimer) clearInterval(gameTimer);
+
+      const area = document.getElementById('gameArea');
+      const bonus = Math.min(5, Math.floor(gameScoreVal / 3) + 1);
+      // Remember last score for ranking
+      window._lastGameScore = gameScoreVal;
+      const overlay = document.createElement('div');
+      overlay.className = 'game-over-overlay';
+      overlay.innerHTML = `
+        <div style="font-size:3.5rem">${gameScoreVal >= 8 ? '🏆' : gameScoreVal >= 4 ? '⭐' : '💪'}</div>
+        <div style="font-size:1.6rem;font-weight:700;margin:8px 0">${gameScoreVal >= 8 ? 'Amazing!' : gameScoreVal >= 4 ? 'Great!' : 'Nice try!'}</div>
+        <div style="font-size:1.2rem;color:#6B7280">Score: ${gameScoreVal}</div>
+        <div style="font-size:1.3rem;margin:12px 0;color:#F59E0B">+${bonus} ⭐</div>
+        <button class="check-btn" onclick="showRanking()">🏆 Lên bảng xếp hạng</button>
+        <button class="next-btn show" style="margin-top:10px" onclick="showMiniGames()">Play Again</button>
+        <button class="next-btn show" style="margin-top:8px;background:#9CA3AF" onclick="showUnitMenu()">Back</button>
+      `;
+      area.appendChild(overlay);
+      addStars(bonus);
+      confetti();
+      speak(gameScoreVal >= 8 ? 'Amazing!' : 'Good job!');
+    }
+
+    // ========== EDUCATIONAL MINI-GAMES ==========
+
+    // 1. WORD CATCH - catch the correct vocabulary word
+    function startWordCatch() {
+      if (!currentUnit) { alert('Hãy chọn Unit trước nhé!'); return; }
+      const area = startGameCommon('🎯 Word Catch - ' + currentUnit.title, 25);
+      const words = currentUnit.words;
+      let target = words[Math.floor(Math.random() * words.length)];
+
+      const targetLabel = document.createElement('div');
+      targetLabel.style.cssText = 'position:absolute;top:8px;left:0;right:0;text-align:center;font-size:1.15rem;font-weight:700;color:#1F2937;z-index:20';
+      targetLabel.innerHTML = `Catch: <span style="color:var(--primary);font-size:1.4rem">${target.word}</span> ${target.emoji}`;
+      area.appendChild(targetLabel);
+
+      const spawn = () => {
+        if (!gameActive) return;
+        // Sometimes change target
+        if (Math.random() < 0.25) {
+          target = words[Math.floor(Math.random() * words.length)];
+          targetLabel.innerHTML = `Catch: <span style="color:var(--primary);font-size:1.4rem">${target.word}</span> ${target.emoji}`;
+          speak(target.word, 0.9);
+        }
+        const item = document.createElement('div');
+        item.className = 'falling-item';
+        const isCorrect = Math.random() < 0.45;
+        const w = isCorrect ? target : words[Math.floor(Math.random() * words.length)];
+        item.textContent = w.emoji;
+        item.dataset.word = w.word;
+        item.style.left = (10 + Math.random() * 75) + '%';
+        item.style.top = '-50px';
+        item.style.fontSize = '2.8rem';
+        area.appendChild(item);
+
+        let y = -50;
+        const speed = 2.5 + Math.random() * 2;
+        const fall = setInterval(() => {
+          if (!gameActive) { clearInterval(fall); item.remove(); return; }
+          y += speed;
+          item.style.top = y + 'px';
+          if (y > 430) { item.remove(); clearInterval(fall); }
+        }, 30);
+
+        item.onclick = () => {
+          if (!gameActive) return;
+          if (item.dataset.word === target.word) {
+            gameScoreVal += 2;
+            document.getElementById('gameMessage').textContent = 'Correct! +2 ⭐';
+            item.style.transform = 'scale(1.4)';
+            setTimeout(() => item.remove(), 200);
+          } else {
+            gameScoreVal = Math.max(0, gameScoreVal - 1);
+            document.getElementById('gameMessage').textContent = 'Oops! Wrong word';
+            item.style.opacity = '0.4';
+            setTimeout(() => item.remove(), 300);
+          }
+          updateGameUI();
+          setTimeout(() => document.getElementById('gameMessage').textContent = '', 500);
+          clearInterval(fall);
+        };
+      };
+
+      speak('Catch the word ' + target.word);
+      gameInterval = setInterval(spawn, 800);
+      for (let i = 0; i < 3; i++) setTimeout(spawn, i * 300);
+
+      gameTimer = setInterval(() => {
+        gameTimeLeft--;
+        updateGameUI();
+        if (gameTimeLeft <= 0) finishGame();
+      }, 1000);
+    }
+
+    // 2. PHONICS POP - pop the letter/sound of the unit
+    function startPhonicsPop() {
+      if (!currentUnit) { alert('Hãy chọn Unit trước nhé!'); return; }
+      const area = startGameCommon('🔤 Phonics Pop - ' + currentUnit.phonics, 22);
+      const letter = currentUnit.phonics.charAt(0); // B, C, A...
+      const allLetters = ['A','B','C','D','E','G','H','I','F','J','K','L','M','N','P','R','S','T'];
+      const words = currentUnit.words;
+
+      const hint = document.createElement('div');
+      hint.style.cssText = 'position:absolute;top:8px;left:0;right:0;text-align:center;font-weight:700;font-size:1.2rem;z-index:20';
+      hint.innerHTML = `Pop the sound: <span style="background:#FEF3C7;padding:4px 12px;border-radius:10px">${currentUnit.phonics}</span>`;
+      area.appendChild(hint);
+
+      const spawn = () => {
+        if (!gameActive) return;
+        const isCorrect = Math.random() < 0.4;
+        const item = document.createElement('div');
+        item.className = 'falling-item';
+        if (isCorrect) {
+          // show word or letter from unit
+          const w = words[Math.floor(Math.random() * words.length)];
+          item.textContent = Math.random() > 0.5 ? w.emoji : letter;
+          item.dataset.correct = '1';
+        } else {
+          item.textContent = allLetters.filter(l => l !== letter)[Math.floor(Math.random() * 10)];
+          item.dataset.correct = '0';
+        }
+        item.style.left = (8 + Math.random() * 80) + '%';
+        item.style.top = '-50px';
+        item.style.fontSize = '2.6rem';
+        item.style.background = isCorrect ? '#D1FAE5' : '#FEE2E2';
+        item.style.borderRadius = '50%';
+        item.style.width = '60px';
+        item.style.height = '60px';
+        item.style.display = 'flex';
+        item.style.alignItems = 'center';
+        item.style.justifyContent = 'center';
+        area.appendChild(item);
+
+        let y = -50;
+        const speed = 2.8 + Math.random() * 2.2;
+        const fall = setInterval(() => {
+          if (!gameActive) { clearInterval(fall); item.remove(); return; }
+          y += speed;
+          item.style.top = y + 'px';
+          if (y > 430) { item.remove(); clearInterval(fall); }
+        }, 30);
+
+        item.onclick = () => {
+          if (!gameActive) return;
+          if (item.dataset.correct === '1') {
+            gameScoreVal += 2;
+            document.getElementById('gameMessage').textContent = 'Yes! ' + currentUnit.phonics;
+            speak(letter.toLowerCase());
+          } else {
+            gameScoreVal = Math.max(0, gameScoreVal - 1);
+            document.getElementById('gameMessage').textContent = 'Not this sound';
+          }
+          updateGameUI();
+          item.remove();
+          clearInterval(fall);
+          setTimeout(() => document.getElementById('gameMessage').textContent = '', 400);
+        };
+      };
+
+      gameInterval = setInterval(spawn, 700);
+      gameTimer = setInterval(() => {
+        gameTimeLeft--;
+        updateGameUI();
+        if (gameTimeLeft <= 0) finishGame();
+      }, 1000);
+    }
+
+    // 3. SENTENCE RACE - build sentence quickly
+    function startSentenceRace() {
+      if (!currentUnit) { alert('Hãy chọn Unit trước nhé!'); return; }
+      const area = startGameCommon('✏️ Sentence Race', 40);
+      area.style.height = '480px';
+      const words = currentUnit.words;
+      let round = 0;
+      const maxRound = 5;
+
+      const playRound = () => {
+        if (!gameActive || round >= maxRound) {
+          finishGame();
+          return;
+        }
+        const w = words[round % words.length];
+        const sentence = w.sentence;
+        const parts = sentence.replace('.', '').split(' ');
+        const shuffled = shuffle([...parts]);
+
+        area.innerHTML = `
+          <div style="padding:16px;text-align:center">
+            <div style="font-size:3rem;margin-bottom:8px">${w.emoji}</div>
+            <div style="font-size:1.1rem;color:#6B7280;margin-bottom:12px">Round ${round + 1}/${maxRound} • Make the sentence</div>
+            <div id="sentSlot" style="min-height:56px;background:#FEF3C7;border:3px dashed #F59E0B;border-radius:14px;padding:10px;display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin-bottom:14px"></div>
+            <div id="wordBankRace" style="display:flex;flex-wrap:wrap;gap:8px;justify-content:center"></div>
+            <button class="check-btn" style="margin-top:14px" id="checkSentBtn">Check ✓</button>
+          </div>
+        `;
+
+        const bank = document.getElementById('wordBankRace');
+        const slot = document.getElementById('sentSlot');
+        let chosen = [];
+
+        shuffled.forEach(p => {
+          const chip = document.createElement('div');
+          chip.className = 'word-chip';
+          chip.textContent = p;
+          chip.onclick = () => {
+            if (chip.classList.contains('used')) return;
+            chip.classList.add('used');
+            chosen.push(p);
+            const c = document.createElement('span');
+            c.className = 'word-chip';
+            c.style.background = '#FEF3C7';
+            c.style.borderColor = '#F59E0B';
+            c.textContent = p;
+            c.onclick = () => {
+              chosen = chosen.filter(x => x !== p);
+              c.remove();
+              chip.classList.remove('used');
+            };
+            slot.appendChild(c);
+          };
+          bank.appendChild(chip);
+        });
+
+        document.getElementById('checkSentBtn').onclick = () => {
+          const user = chosen.join(' ').toLowerCase();
+          const ans = parts.join(' ').toLowerCase();
+          if (user === ans) {
+            gameScoreVal += 3;
+            updateGameUI();
+            document.getElementById('gameMessage').textContent = 'Perfect! +3';
+            speak('Perfect!');
+            round++;
+            setTimeout(playRound, 800);
+          } else {
+            document.getElementById('gameMessage').textContent = 'Try again! → ' + sentence;
+            speak('Try again');
+          }
+        };
+      };
+
+      playRound();
+      gameTimer = setInterval(() => {
+        gameTimeLeft--;
+        updateGameUI();
+        if (gameTimeLeft <= 0) finishGame();
+      }, 1000);
+    }
+
+    // 4. LISTEN & MATCH - hear word, tap correct emoji
+    function startListenMatch() {
+      if (!currentUnit) { alert('Hãy chọn Unit trước nhé!'); return; }
+      const area = startGameCommon('🔊 Listen & Match', 30);
+      const words = currentUnit.words;
+      let target = null;
+
+      const askNew = () => {
+        if (!gameActive) return;
+        target = words[Math.floor(Math.random() * words.length)];
+        speak(target.word);
+        // show 4 options
+        const options = shuffle([target, ...shuffle(words.filter(w => w.word !== target.word)).slice(0, 3)]).slice(0, 4);
+        while (options.length < 4) options.push(words[Math.floor(Math.random()*words.length)]);
+
+        area.innerHTML = `
+          <div style="padding:20px;text-align:center">
+            <button class="speak-btn" onclick="speak('${target.word}')" style="margin-bottom:20px">🔊 Hear again</button>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;max-width:280px;margin:0 auto">
+              ${options.map(o => `
+                <div class="pic-option" style="font-size:3.2rem;padding:18px" data-word="${o.word}">${o.emoji}</div>
+              `).join('')}
+            </div>
+          </div>
+        `;
+        area.querySelectorAll('.pic-option').forEach(el => {
+          el.onclick = () => {
+            if (!gameActive) return;
+            if (el.dataset.word === target.word) {
+              gameScoreVal += 2;
+              el.classList.add('correct');
+              document.getElementById('gameMessage').textContent = 'Yes! ' + target.word;
+              speak('Great!');
+              updateGameUI();
+              setTimeout(askNew, 700);
+            } else {
+              el.classList.add('wrong');
+              gameScoreVal = Math.max(0, gameScoreVal - 1);
+              document.getElementById('gameMessage').textContent = 'Not this one';
+              updateGameUI();
+            }
+          };
+        });
+      };
+
+      askNew();
+      gameTimer = setInterval(() => {
+        gameTimeLeft--;
+        updateGameUI();
+        if (gameTimeLeft <= 0) finishGame();
+      }, 1000);
+    }
+
+    // ========== CLASS RANKING ==========
+    function getRanking() {
+      try {
+        return JSON.parse(safeGet('happyEnglishRanking', '[]'));
+      } catch (e) { return []; }
+    }
+
+    function showRanking() {
+      renderRankingList();
+      // prefill name if known
+      const lastName = safeGet('happyEnglishPlayerName', '');
+      document.getElementById('playerNameInput').value = lastName;
+      showScreen('rankingScreen');
+    }
+
+    function renderRankingList() {
+      let list = getRanking();
+      list.sort((a, b) => b.score - a.score);
+      const box = document.getElementById('rankingList');
+      if (list.length === 0) {
+        box.innerHTML = '<p style="text-align:center;color:#9CA3AF;padding:30px 0">Chưa có ai trên bảng xếp hạng.<br>Chơi game rồi lưu điểm nhé!</p>';
+        return;
+      }
+      const medals = ['🥇', '🥈', '🥉'];
+      box.innerHTML = list.slice(0, 15).map((p, i) => `
+        <div style="display:flex;align-items:center;gap:12px;padding:10px 8px;border-bottom:1px solid #F3F4F6;${i < 3 ? 'background:#FEF3C7;border-radius:12px;margin-bottom:4px' : ''}">
+          <span style="font-size:1.4rem;width:36px;text-align:center">${medals[i] || (i + 1)}</span>
+          <span style="flex:1;font-weight:700;font-size:1.15rem">${p.name}</span>
+          <span style="font-weight:700;color:#F59E0B">${p.score} ⭐</span>
+        </div>
+      `).join('');
+    }
+
+    function savePlayerScore() {
+      const name = (document.getElementById('playerNameInput').value || '').trim();
+      if (!name) {
+        alert('Hãy nhập tên học sinh nhé!');
+        return;
+      }
+      const scoreToSave = window._lastGameScore || totalStars || 0;
+      if (scoreToSave <= 0) {
+        alert('Chưa có điểm để lưu. Hãy chơi mini-game trước nhé!');
+        return;
+      }
+      let list = getRanking();
+      const existing = list.find(p => p.name.toLowerCase() === name.toLowerCase());
+      if (existing) {
+        existing.score = Math.max(existing.score, scoreToSave);
+      } else {
+        list.push({ name, score: scoreToSave, date: new Date().toLocaleDateString() });
+      }
+      safeSet('happyEnglishRanking', JSON.stringify(list));
+      safeSet('happyEnglishPlayerName', name);
+      renderRankingList();
+      confetti();
+      speak('Great! ' + name + ' is on the ranking!');
+      document.getElementById('gameMessage') && (document.getElementById('gameMessage').textContent = 'Saved!');
+    }
+
+    function clearRanking() {
+      if (confirm('Xóa toàn bộ bảng xếp hạng lớp?')) {
+        safeSet('happyEnglishRanking', '[]');
+        renderRankingList();
+      }
+    }
+
+    // ========== RACE GAMES (linked to lesson vocabulary) ==========
+
+    // Shared learning-race engine: answer correct word → move forward
+    function startLearningRace(config) {
+      if (!currentUnit) {
+        alert('Hãy chọn Unit trước để ôn đúng từ vựng bài học nhé!');
+        return;
+      }
+      const words = currentUnit.words;
+      const area = startGameCommon(config.title, config.time || 25);
+      area.style.background = config.bg;
+      area.style.height = '460px';
+
+      let playerPos = 6;
+      let cpuPos = 6;
+      const finish = 86;
+      let finished = false;
+      let currentTarget = null;
+
+      area.innerHTML = `
+        <div style="position:absolute;top:4px;left:0;right:0;text-align:center;font-weight:700;font-size:1rem;z-index:20">
+          ${config.hint}
+        </div>
+        <div id="pRacer" style="position:absolute;top:55px;left:6%;font-size:2.8rem;transition:left 0.15s linear">${config.playerEmoji}</div>
+        <div id="cRacer" style="position:absolute;top:105px;left:6%;font-size:2.5rem;transition:left 0.15s linear;opacity:0.8">${config.cpuEmoji}</div>
+        <div style="position:absolute;top:55px;right:4%;font-size:1.8rem">🏁</div>
+        <div style="position:absolute;top:105px;right:4%;font-size:1.8rem">🏁</div>
+        <div id="qBox" style="position:absolute;top:165px;left:8px;right:8px;background:white;border-radius:18px;padding:12px;box-shadow:0 4px 14px rgba(0,0,0,0.1);z-index:25"></div>
+      `;
+
+      const pEl = () => document.getElementById('pRacer');
+      const cEl = () => document.getElementById('cRacer');
+      const qBox = () => document.getElementById('qBox');
+
+      const updatePos = () => {
+        if (pEl()) pEl().style.left = playerPos + '%';
+        if (cEl()) cEl().style.left = cpuPos + '%';
+      };
+
+      const askQuestion = () => {
+        if (!gameActive || finished) return;
+        currentTarget = words[Math.floor(Math.random() * words.length)];
+        // 50% show emoji ask word, 50% show word ask emoji
+        const mode = Math.random() > 0.45 ? 'emojiToWord' : 'wordToEmoji';
+        let options;
+        if (mode === 'emojiToWord') {
+          options = shuffle([currentTarget.word, ...getDistractors(currentTarget.word, 3)]).slice(0, 4);
+          qBox().innerHTML = `
+            <div style="font-size:2.8rem;margin-bottom:6px">${currentTarget.emoji}</div>
+            <div style="font-size:0.95rem;color:#6B7280;margin-bottom:8px">What is this?</div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+              ${options.map(o => `<button class="option-btn" style="padding:10px;font-size:1.05rem" data-ans="${o}">${o}</button>`).join('')}
+            </div>
+          `;
+          speak(currentTarget.word);
+        } else {
+          const opts = shuffle([currentTarget, ...shuffle(words.filter(w => w.word !== currentTarget.word)).slice(0, 3)]).slice(0, 4);
+          qBox().innerHTML = `
+            <div style="font-size:1.3rem;font-weight:700;color:var(--primary);margin-bottom:6px">${currentTarget.word}</div>
+            <div style="font-size:0.95rem;color:#6B7280;margin-bottom:8px">Choose the picture</div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+              ${opts.map(o => `<button class="option-btn" style="padding:10px;font-size:1.8rem" data-ans="${o.word}">${o.emoji}</button>`).join('')}
+            </div>
+          `;
+          speak(currentTarget.word);
+        }
+
+        qBox().querySelectorAll('.option-btn').forEach(btn => {
+          btn.onclick = () => {
+            if (!gameActive || finished) return;
+            const correct = btn.dataset.ans === currentTarget.word;
+            if (correct) {
+              playerPos = Math.min(finish, playerPos + 14 + Math.random() * 4);
+              gameScoreVal += 2;
+              btn.classList.add('correct');
+              document.getElementById('gameMessage').textContent = 'Correct! Run! 🚀';
+              speak('Yes!');
+            } else {
+              playerPos = Math.max(6, playerPos - 3);
+              btn.classList.add('wrong');
+              document.getElementById('gameMessage').textContent = 'Oops! Answer: ' + currentTarget.word;
+            }
+            updateGameUI();
+            updatePos();
+            // disable buttons
+            qBox().querySelectorAll('.option-btn').forEach(b => b.style.pointerEvents = 'none');
+
+            if (playerPos >= finish) {
+              finished = true;
+              gameScoreVal += 5;
+              document.getElementById('gameMessage').textContent = 'You Win! 🏆';
+              speak('You win!');
+              setTimeout(finishGame, 700);
+              return;
+            }
+            setTimeout(() => {
+              document.getElementById('gameMessage').textContent = '';
+              askQuestion();
+            }, 700);
+          };
+        });
+      };
+
+      askQuestion();
+
+      // CPU keeps moving slowly
+      gameInterval = setInterval(() => {
+        if (!gameActive || finished) return;
+        cpuPos += 1.1 + Math.random() * 1.2;
+        updatePos();
+        if (cpuPos >= finish && !finished) {
+          finished = true;
+          document.getElementById('gameMessage').textContent = 'CPU finished! Keep learning!';
+          setTimeout(finishGame, 900);
+        }
+      }, 400);
+
+      gameTimer = setInterval(() => {
+        gameTimeLeft--;
+        updateGameUI();
+        if (gameTimeLeft <= 0 && !finished) {
+          finished = true;
+          finishGame();
+        }
+      }, 1000);
+    }
+
+    function startHorseRace() {
+      startLearningRace({
+        title: '🐴 Horse Race + Words',
+        bg: 'linear-gradient(180deg,#BBF7D0,#FEF3C7)',
+        playerEmoji: '🐴',
+        cpuEmoji: '🦄',
+        hint: 'Trả lời đúng từ vựng để ngựa chạy về đích!',
+        time: 30
+      });
+    }
+
+    // Soccer Kick - tap to kick ball into goal
+
+    function startSoccerKick() {
+      startLearningRace({
+        title: '⚽ Soccer + Words',
+        bg: 'linear-gradient(180deg,#86EFAC,#4ADE80)',
+        playerEmoji: '⚽',
+        cpuEmoji: '🧒',
+        hint: 'Trả lời đúng từ vựng để sút bóng về đích!',
+        time: 30
+      });
+    }
+
+    function startRunRace() {
+      startLearningRace({
+        title: '🏃 Run + Words',
+        bg: 'linear-gradient(180deg,#FED7AA,#FEF3C7)',
+        playerEmoji: '🏃',
+        cpuEmoji: '🧒',
+        hint: 'Trả lời đúng từ vựng để chạy về đích!',
+        time: 30
+      });
+    }
+
+    function startBikeRace() {
+      startLearningRace({
+        title: '🚲 Bike Race + Words',
+        bg: 'linear-gradient(180deg,#BAE6FD,#E0F2FE)',
+        playerEmoji: '🚲',
+        cpuEmoji: '🚴',
+        hint: 'Trả lời đúng từ vựng để đạp xe về đích!',
+        time: 30
+      });
+    }
+
+    // ---- FUN: CATCH THE BALL ----
+    function startCatchBall() {
+      const area = startGameCommon('🏐 Catch the Ball!', 20);
+      const basket = document.createElement('div');
+      basket.className = 'basket';
+      basket.textContent = '🧺';
+      basket.style.bottom = '10px';
+      basket.style.left = '50%';
+      basket.style.transform = 'translateX(-50%)';
+      basket.style.fontSize = '3.8rem';
+      area.appendChild(basket);
+
+      let basketX = 50; // percent
+      const moveBasket = (clientX) => {
+        const rect = area.getBoundingClientRect();
+        basketX = ((clientX - rect.left) / rect.width) * 100;
+        basketX = Math.max(8, Math.min(92, basketX));
+        basket.style.left = basketX + '%';
+      };
+
+      area.ontouchmove = (e) => { e.preventDefault(); moveBasket(e.touches[0].clientX); };
+      area.onmousemove = (e) => moveBasket(e.clientX);
+
+      gameInterval = setInterval(() => {
+        if (!gameActive) return;
+        const ball = document.createElement('div');
+        ball.className = 'falling-item';
+        ball.textContent = ['🏐','⚽','🏀','🟡'][Math.floor(Math.random()*4)];
+        const startX = 10 + Math.random() * 80;
+        ball.style.left = startX + '%';
+        ball.style.top = '-40px';
+        area.appendChild(ball);
+
+        let y = -40;
+        const speed = 3 + Math.random() * 3;
+        const fall = setInterval(() => {
+          if (!gameActive) { clearInterval(fall); ball.remove(); return; }
+          y += speed;
+          ball.style.top = y + 'px';
+          // Check catch
+          if (y > 320 && y < 380) {
+            const ballCenter = startX;
+            if (Math.abs(ballCenter - basketX) < 18) {
+              gameScoreVal++;
+              updateGameUI();
+              ball.remove();
+              clearInterval(fall);
+              // pop effect
+              document.getElementById('gameMessage').textContent = 'Catch! 🎉';
+              setTimeout(() => document.getElementById('gameMessage').textContent = '', 400);
+              return;
+            }
+          }
+          if (y > 430) {
+            ball.remove();
+            clearInterval(fall);
+          }
+        }, 30);
+      }, 700);
+
+      gameTimer = setInterval(() => {
+        gameTimeLeft--;
+        updateGameUI();
+        if (gameTimeLeft <= 0) finishGame();
+      }, 1000);
+    }
+
+    // ---- 2. FEED THE DUCK ----
+    function startFeedDuck() {
+      const area = startGameCommon('🦆 Feed the Duck!', 20);
+      const duck = document.createElement('div');
+      duck.className = 'duck-mouth';
+      duck.textContent = '🦆';
+      duck.style.bottom = '20px';
+      duck.style.left = '50%';
+      duck.style.transform = 'translateX(-50%)';
+      duck.style.fontSize = '4.5rem';
+      area.appendChild(duck);
+
+      let duckX = 50;
+      const moveDuck = (clientX) => {
+        const rect = area.getBoundingClientRect();
+        duckX = ((clientX - rect.left) / rect.width) * 100;
+        duckX = Math.max(10, Math.min(90, duckX));
+        duck.style.left = duckX + '%';
+      };
+      area.ontouchmove = (e) => { e.preventDefault(); moveDuck(e.touches[0].clientX); };
+      area.onmousemove = (e) => moveDuck(e.clientX);
+
+      gameInterval = setInterval(() => {
+        if (!gameActive) return;
+        const food = document.createElement('div');
+        food.className = 'falling-item';
+        const foods = ['🍞','🐟','🐛','🌽','🍇'];
+        food.textContent = foods[Math.floor(Math.random()*foods.length)];
+        const startX = 8 + Math.random() * 84;
+        food.style.left = startX + '%';
+        food.style.top = '-40px';
+        area.appendChild(food);
+
+        let y = -40;
+        const speed = 2.8 + Math.random() * 2.5;
+        const fall = setInterval(() => {
+          if (!gameActive) { clearInterval(fall); food.remove(); return; }
+          y += speed;
+          food.style.top = y + 'px';
+          if (y > 300 && y < 370) {
+            if (Math.abs(startX - duckX) < 20) {
+              gameScoreVal++;
+              updateGameUI();
+              food.remove();
+              clearInterval(fall);
+              duck.textContent = '😋';
+              setTimeout(() => duck.textContent = '🦆', 300);
+              document.getElementById('gameMessage').textContent = 'Yummy!';
+              setTimeout(() => document.getElementById('gameMessage').textContent = '', 400);
+              return;
+            }
+          }
+          if (y > 430) { food.remove(); clearInterval(fall); }
+        }, 30);
+      }, 650);
+
+      gameTimer = setInterval(() => {
+        gameTimeLeft--;
+        updateGameUI();
+        if (gameTimeLeft <= 0) finishGame();
+      }, 1000);
+    }
+
+    // ---- 3. PICK APPLES ----
+    function startPickApple() {
+      const area = startGameCommon('🍎 Pick Apples!', 18);
+      // tree background
+      const tree = document.createElement('div');
+      tree.style.position = 'absolute';
+      tree.style.bottom = '0';
+      tree.style.left = '50%';
+      tree.style.transform = 'translateX(-50%)';
+      tree.style.fontSize = '9rem';
+      tree.style.opacity = '0.35';
+      tree.textContent = '🌳';
+      area.appendChild(tree);
+
+      const spawnApple = () => {
+        if (!gameActive) return;
+        const apple = document.createElement('div');
+        apple.className = 'falling-item';
+        apple.textContent = Math.random() > 0.15 ? '🍎' : '🍏';
+        apple.style.left = (12 + Math.random() * 76) + '%';
+        apple.style.top = (10 + Math.random() * 55) + '%';
+        apple.style.fontSize = '2.6rem';
+        apple.onclick = () => {
+          if (!gameActive) return;
+          gameScoreVal++;
+          updateGameUI();
+          apple.style.transform = 'scale(0)';
+          apple.style.opacity = '0';
+          setTimeout(() => apple.remove(), 150);
+          document.getElementById('gameMessage').textContent = '+1 🍎';
+          setTimeout(() => document.getElementById('gameMessage').textContent = '', 300);
+        };
+        area.appendChild(apple);
+        // auto remove after time
+        setTimeout(() => { if (apple.parentNode) apple.remove(); }, 2200);
+      };
+
+      // initial apples
+      for (let i = 0; i < 5; i++) setTimeout(spawnApple, i * 200);
+      gameInterval = setInterval(spawnApple, 600);
+
+      gameTimer = setInterval(() => {
+        gameTimeLeft--;
+        updateGameUI();
+        if (gameTimeLeft <= 0) finishGame();
+      }, 1000);
+    }
+
+    // ---- 4. PET THE CAT ----
+    function startPetCat() {
+      const area = startGameCommon('🐱 Pet the Cat!', 18);
+      const cat = document.createElement('div');
+      cat.className = 'cat';
+      cat.textContent = '🐱';
+      cat.style.fontSize = '5rem';
+      cat.style.left = '40%';
+      cat.style.top = '40%';
+      cat.style.cursor = 'pointer';
+      cat.style.transition = 'all 0.2s';
+      area.appendChild(cat);
+
+      let catMood = 0;
+      cat.onclick = () => {
+        if (!gameActive) return;
+        gameScoreVal++;
+        catMood++;
+        updateGameUI();
+        // happy reaction
+        cat.style.transform = 'scale(1.25) rotate(' + (Math.random()*20-10) + 'deg)';
+        cat.textContent = ['😻','😺','😸','😽'][Math.floor(Math.random()*4)];
+        document.getElementById('gameMessage').textContent = 'Purr~ 💕';
+        setTimeout(() => {
+          cat.style.transform = 'scale(1)';
+          if (Math.random() > 0.3) cat.textContent = '🐱';
+          document.getElementById('gameMessage').textContent = '';
+        }, 350);
+
+        // move cat randomly
+        cat.style.left = (15 + Math.random() * 60) + '%';
+        cat.style.top = (20 + Math.random() * 50) + '%';
+      };
+
+      // sometimes show hearts
+      gameInterval = setInterval(() => {
+        if (!gameActive || Math.random() > 0.4) return;
+        const heart = document.createElement('div');
+        heart.textContent = '💕';
+        heart.style.position = 'absolute';
+        heart.style.left = cat.style.left;
+        heart.style.top = cat.style.top;
+        heart.style.fontSize = '1.5rem';
+        heart.style.transition = 'all 0.8s';
+        area.appendChild(heart);
+        setTimeout(() => {
+          heart.style.transform = 'translateY(-40px)';
+          heart.style.opacity = '0';
+        }, 50);
+        setTimeout(() => heart.remove(), 900);
+      }, 800);
+
+      gameTimer = setInterval(() => {
+        gameTimeLeft--;
+        updateGameUI();
+        if (gameTimeLeft <= 0) finishGame();
+      }, 1000);
+    }
+
+    // ==================== INIT ====================
+    renderHome();
+  </script>
+</body>
+</html>
